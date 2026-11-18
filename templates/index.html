@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Bosh sahifa{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>Xush kelibsiz!</h1><div class="muted">O'quv markazingiz faoliyati haqida qisqacha ma'lumot.</div></div><a class="button" href="/admin/">＋ Admin panel</a></div>
+<div class="stats">
+  <div class="stat"><div><div class="stat-label">Jami o'quvchilar</div><div class="stat-value">{{ student_count }}</div></div><div class="stat-icon">◎</div></div>
+  <div class="stat"><div><div class="stat-label">Jami o'qituvchilar</div><div class="stat-value">{{ teacher_count }}</div></div><div class="stat-icon">◉</div></div>
+  <div class="stat"><div><div class="stat-label">Faol kurslar</div><div class="stat-value">{{ course_count }}</div></div><div class="stat-icon">▤</div></div>
+</div>
+<div class="panel">
+  <div class="panel-head"><h2 class="panel-title">Oxirgi qo'shilgan o'quvchilar</h2><a class="panel-link" href="{% url 'student_list' %}">Barchasini ko'rish →</a></div>
+  <div class="table-wrap"><table><thead><tr><th>O'quvchi</th><th>Telefon</th><th>Kurs</th><th>Yoshi</th><th></th></tr></thead><tbody>
+  {% for student in recent_students %}<tr>
+    <td><div class="person"><span class="person-avatar">{{ student.name|first|upper }}</span>{{ student.name }} {{ student.surname }}</div></td>
+    <td>{{ student.phone }}</td><td>{% if student.course %}<span class="badge">{{ student.course.title }}</span>{% else %}<span class="muted">Biriktirilmagan</span>{% endif %}</td><td>{{ student.age }}</td>
+    <td><a class="panel-link" href="{% url 'student_detail' student.id %}">Profil →</a></td>
+  </tr>{% empty %}<tr><td colspan="5"><div class="empty">Hozircha o'quvchilar mavjud emas.</div></td></tr>{% endfor %}
+  </tbody></table></div>
+</div>
+{% endblock %}

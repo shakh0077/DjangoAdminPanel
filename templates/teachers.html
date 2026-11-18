@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}O'qituvchilar{% endblock %}
+{% block breadcrumb %}O'qituvchilar{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>O'qituvchilar</h1><div class="muted">Markazdagi barcha o'qituvchilar ro'yxati.</div></div><a class="button" href="/admin/cards/teacher/add/">＋ O'qituvchi qo'shish</a></div>
+<div class="panel"><div class="panel-head"><h2 class="panel-title">O'qituvchilar ro'yxati</h2></div><div class="table-wrap"><table><thead><tr><th>O'qituvchi</th><th>Mutaxassisligi</th><th>Telefon</th></tr></thead><tbody>
+{% for teacher in teachers %}<tr><td><div class="person"><span class="person-avatar">{{ teacher.name|first|upper }}</span>{{ teacher.name }} {{ teacher.surname }}</div></td><td><span class="badge">{{ teacher.specialty }}</span></td><td>{{ teacher.phone }}</td></tr>{% empty %}<tr><td colspan="3"><div class="empty">Hozircha o'qituvchilar mavjud emas.</div></td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

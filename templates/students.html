@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}O'quvchilar{% endblock %}
+{% block breadcrumb %}O'quvchilar{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>O'quvchilar</h1><div class="muted">Markazdagi barcha o'quvchilar ro'yxati · {{ student_count }} nafar</div></div><a class="button" href="/admin/cards/student/add/">＋ O'quvchi qo'shish</a></div>
+<div class="panel">
+  <div class="panel-head"><h2 class="panel-title">O'quvchilar ro'yxati</h2>
+    <form class="toolbar" method="get"><select name="course" aria-label="Kurs bo'yicha filtrlash" onchange="this.form.submit()"><option value="">Barcha kurslar</option>{% for course in courses %}<option value="{{ course.id }}" {% if selected_course == course.id|stringformat:"s" %}selected{% endif %}>{{ course.title }}</option>{% endfor %}</select></form>
+  </div>
+  <div class="table-wrap"><table><thead><tr><th>O'quvchi</th><th>Telefon</th><th>Yoshi</th><th>Kurs</th><th>Qo'shilgan sana</th><th></th></tr></thead><tbody>
+  {% for student in students %}<tr><td><div class="person"><span class="person-avatar">{{ student.name|first|upper }}</span>{{ student.name }} {{ student.surname }}</div></td><td>{{ student.phone }}</td><td>{{ student.age }} yosh</td><td>{% if student.course %}<span class="badge">{{ student.course.title }}</span>{% else %}<span class="muted">Biriktirilmagan</span>{% endif %}</td><td>{{ student.created_at|date:"d.m.Y" }}</td><td><a class="panel-link" href="{% url 'student_detail' student.id %}">Profil →</a></td></tr>
+  {% empty %}<tr><td colspan="6"><div class="empty">Bu tanlov bo'yicha o'quvchilar topilmadi.</div></td></tr>{% endfor %}
+  </tbody></table></div>
+</div>
+{% endblock %}
