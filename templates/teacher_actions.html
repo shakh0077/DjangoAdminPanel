@@ -1,0 +1,4 @@
+﻿<span class="record-actions">
+  {% if perms.cards.change_teacher %}<a class="icon-button" href="{% url 'teacher_edit' teacher.pk %}" aria-label="O‘qituvchini tahrirlash"><svg aria-hidden="true"><use href="#edit"/></svg></a>{% endif %}
+  {% if perms.cards.delete_teacher %}<a class="icon-button" href="{% url 'teacher_delete' teacher.pk %}" aria-label="O‘qituvchini o‘chirish"><svg aria-hidden="true"><use href="#trash"/></svg></a>{% endif %}
+</span>

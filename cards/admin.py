@@ -1,12 +1,14 @@
 from django.contrib import admin
 
-from .models import Cards, Course, Student, Teacher
+from .forms import StudentForm
+from .models import Attendance, Cards, Course, ExamResult, Student, StudentGroup, Teacher
 
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'surname', 'phone', 'age', 'course', 'created_at')
-    list_filter = ('course',)
+    form = StudentForm
+    list_display = ('name', 'surname', 'phone', 'age', 'course', 'group', 'created_at')
+    list_filter = ('course', 'group')
     search_fields = ('name', 'surname', 'phone')
     ordering = ('surname', 'name')
 
@@ -25,4 +27,20 @@ class CourseAdmin(admin.ModelAdmin):
     ordering = ('title',)
 
 
+@admin.register(Attendance)
+class AttendanceAdmin(admin.ModelAdmin):
+    list_display = ('student', 'course', 'group', 'date', 'status', 'updated_at')
+    list_filter = ('course', 'group', 'date', 'status')
+    search_fields = ('student__name', 'student__surname')
+    ordering = ('-date', 'student__surname', 'student__name')
+
+
 admin.site.register(Cards)
+admin.site.register(StudentGroup)
+
+
+@admin.register(ExamResult)
+class ExamResultAdmin(admin.ModelAdmin):
+    list_display = ('name', 'student', 'group', 'subject', 'grade', 'date')
+    list_filter = ('date', 'subject')
+    search_fields = ('name', 'student__name', 'student__surname', 'subject')

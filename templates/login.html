@@ -1,0 +1,48 @@
+﻿{% load static %}
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kirish | ShakhAcademy</title>
+  <link rel="stylesheet" href="{% static 'cards/login.css' %}">
+  <script defer src="{% static 'cards/login.js' %}"></script>
+</head>
+<body>
+  <main class="login-layout">
+    <div class="illustration-pane" aria-hidden="true">
+      <div class="illustration">
+        <div class="art-halo"></div>
+        <div class="art-id"><span class="art-avatar"></span><span class="art-line"></span><span class="art-line short"></span></div>
+        <div class="art-tag">•••••</div>
+        <div class="art-lock"><i></i></div>
+      </div>
+    </div>
+    <div class="form-pane">
+      <form class="login-form" method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <p class="brand-name">ShakhAcademy</p>
+        <h1>Kirish</h1>
+        {% if form.errors %}
+        <p class="error" role="alert">Login yoki parol noto‘g‘ri. Qayta urinib ko‘ring.</p>
+        {% endif %}
+        <div class="field">
+          <label for="{{ form.username.id_for_label }}">Login</label>
+          {{ form.username }}
+        </div>
+        <div class="field">
+          <label for="{{ form.password.id_for_label }}">Parol</label>
+          <div class="password-box">
+            {{ form.password }}
+            <button type="button" class="password-toggle" aria-controls="{{ form.password.id_for_label }}" aria-pressed="false" aria-label="Parolni ko‘rsatish" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/><path class="eye-slash" d="M4 4l16 16"/></svg>
+            </button>
+          </div>
+        </div>
+        {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+        <button class="submit" type="submit">Kirish</button>
+      </form>
+    </div>
+  </main>
+</body>
+</html>

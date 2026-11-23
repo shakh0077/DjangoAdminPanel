@@ -1,0 +1,4 @@
+<span class="avatar" aria-hidden="true">
+  {% if request.user.account_photo %}<img src="{% url 'account_photo' %}" alt="">
+  {% else %}{{ request.user.first_name|default:request.user.username|first|upper }}{% endif %}
+</span>

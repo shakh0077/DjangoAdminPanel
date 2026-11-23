@@ -1,0 +1,33 @@
+﻿<section class="panel exams" id="results">
+  <div class="panel-head">
+    <h2 class="panel-title">Imtihon natijalari</h2>
+    <div class="exam-tools">
+      <form class="search" action="{{ request.path }}#results">
+        <svg><use href="#search"/></svg>
+        <input type="search" name="exam" aria-label="Imtihon natijalarini qidirish" placeholder="Ism, fan yoki ID" value="{{ exam_query }}">
+      </form>
+      <a class="button" href="{% url 'admin:cards_examresult_add' %}">+ Natija qo‘shish</a>
+    </div>
+  </div>
+  <div class="table-wrap" tabindex="0" aria-label="Imtihon natijalari jadvali">
+    <table>
+      <thead><tr><th scope="col">Imtihon</th><th scope="col">O‘quvchi</th><th scope="col">ID</th><th scope="col">Guruh</th><th scope="col">Fan</th><th scope="col">Baho</th><th scope="col">Sana</th><th scope="col">Amallar</th></tr></thead>
+      <tbody>
+        {% for result in exam_page %}
+        <tr><td><strong>{{ result.name }}</strong></td><td><a class="panel-link" href="{% url 'student_detail' result.student_id %}">{{ result.student }}</a></td><td>#{{ result.student_id }}</td><td>{{ result.group }}</td><td>{{ result.subject }}</td><td><span class="badge">{{ result.grade }}</span></td><td>{{ result.date|date:"d.m.Y" }}</td>
+          <td><div class="row-actions"><a class="icon-button" href="{% url 'admin:cards_examresult_change' result.pk %}" aria-label="{{ result.name }} natijasini tahrirlash"><svg><use href="#edit"/></svg></a><a class="icon-button" href="{% url 'admin:cards_examresult_delete' result.pk %}" aria-label="{{ result.name }} natijasini o‘chirish"><svg><use href="#trash"/></svg></a></div></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="8" class="empty">{% if exam_query %}Qidiruv bo‘yicha natija topilmadi.{% else %}Imtihon natijalari hali qo‘shilmagan.{% endif %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if exam_page.has_other_pages %}
+  <div class="pagination">
+    {% if exam_page.has_previous %}<a class="panel-link" href="?exam={{ exam_query|urlencode }}&amp;page={{ exam_page.previous_page_number }}#results">Oldingi</a>{% endif %}
+    <span>{{ exam_page.number }} / {{ exam_page.paginator.num_pages }}</span>
+    {% if exam_page.has_next %}<a class="panel-link" href="?exam={{ exam_query|urlencode }}&amp;page={{ exam_page.next_page_number }}#results">Keyingi</a>{% endif %}
+  </div>
+  {% endif %}
+</section>

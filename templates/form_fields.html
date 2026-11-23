@@ -1,0 +1,11 @@
+﻿{{ form.non_field_errors }}
+<div class="editor-fields">
+  {% for field in form %}
+  <div class="editor-field">
+    {{ field.label_tag }}
+    {{ field }}
+    {{ field.errors }}
+    {% if field.help_text %}<div class="field-help" id="{{ field.auto_id }}_helptext">{{ field.help_text }}</div>{% endif %}
+  </div>
+  {% endfor %}
+</div>

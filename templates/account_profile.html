@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Mening profilim{% endblock %}
+{% block content %}
+<h1>Mening profilim</h1>
+<form method="post" enctype="multipart/form-data" class="panel editor">
+  {% csrf_token %}
+  <div class="profile-summary">
+    {% include "account_avatar.html" %}
+    <div><strong>{{ request.user.get_full_name|default:request.user.username }}</strong><div class="muted">{{ request.user.username }}</div></div>
+  </div>
+  {% include "form_fields.html" %}
+  <div class="editor-actions">
+    <button class="button" type="submit">Saqlash</button>
+    <a class="panel-link" href="{% url 'password_change' %}">Parolni o‘zgartirish</a>
+  </div>
+</form>
+{% endblock %}

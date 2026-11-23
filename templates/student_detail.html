@@ -1,14 +1,15 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% block title %}{{ student.name }} {{ student.surname }}{% endblock %}
 {% block breadcrumb %}<a class="panel-link" href="{% url 'student_list' %}">O'quvchilar</a> &nbsp; / &nbsp; Profil{% endblock %}
 {% block content %}
 <div class="page-head"><div><h1>O'quvchi profili</h1><div class="muted">O'quvchi haqidagi batafsil ma'lumot</div></div><a class="button" href="{% url 'student_list' %}">← Ro'yxatga qaytish</a></div>
-<div class="panel"><div class="panel-head"><div class="person"><span class="person-avatar">{{ student.name|first|upper }}</span><h2 class="panel-title">{{ student.name }} {{ student.surname }}</h2></div></div>
+<div class="panel"><div class="panel-head"><div class="person"><span class="person-avatar">{{ student.name|first|upper }}</span><h2 class="panel-title">{{ student.name }} {{ student.surname }}</h2></div>{% include "student_actions.html" %}</div>
   <div class="detail-grid"><div class="detail-item"><div class="detail-label">Ismi</div><div class="detail-value">{{ student.name }}</div></div>
   <div class="detail-item"><div class="detail-label">Familiyasi</div><div class="detail-value">{{ student.surname }}</div></div>
   <div class="detail-item"><div class="detail-label">Telefon raqami</div><div class="detail-value">{{ student.phone }}</div></div>
   <div class="detail-item"><div class="detail-label">Yoshi</div><div class="detail-value">{{ student.age }} yosh</div></div>
   <div class="detail-item"><div class="detail-label">Kursi</div><div class="detail-value">{% if student.course %}{{ student.course.title }}{% else %}Biriktirilmagan{% endif %}</div></div>
+  <div class="detail-item"><div class="detail-label">Guruhi</div><div class="detail-value">{% if student.group %}<a class="panel-link" href="{% url 'group_detail' student.group_id %}">{{ student.group.name }}</a>{% else %}Guruh biriktirilmagan{% endif %}</div></div>
   <div class="detail-item"><div class="detail-label">Ro'yxatdan o'tgan</div><div class="detail-value">{{ student.created_at|date:"d.m.Y" }}</div></div></div>
 </div>
 {% endblock %}

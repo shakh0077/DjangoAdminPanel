@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Davomat{% endblock %}
+{% block breadcrumb %}Davomat{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>Davomat</h1><div class="muted">Guruh yoki kurs bo‘yicha davomatni belgilang.</div></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2 class="panel-title">Davomat belgilash</h2>
+    <form class="toolbar" method="get">
+      <select name="scope" aria-label="Guruh yoki kurs" required>
+        <option value="">Guruh yoki kursni tanlang</option>
+        {% if groups %}<optgroup label="Guruhlar">
+          {% for group in groups %}
+          <option value="group:{{ group.pk }}" {% if kind == 'group' and target.pk == group.pk %}selected{% endif %}>{{ group.name }}</option>
+          {% endfor %}
+        </optgroup>{% endif %}
+        {% if courses %}<optgroup label="Kurslar">
+          {% for course in courses %}
+          <option value="course:{{ course.pk }}" {% if kind == 'course' and target.pk == course.pk %}selected{% endif %}>{{ course.title }}</option>
+          {% endfor %}
+        </optgroup>{% endif %}
+      </select>
+      <input type="date" name="date" value="{{ selected_date|date:"Y-m-d" }}" aria-label="Sana">
+      <button class="button" type="submit">Ko‘rsatish</button>
+    </form>
+  </div>
+
+  {% if target %}
+  <form method="post" action="{% url 'save_attendance' %}">
+    {% csrf_token %}
+    <input type="hidden" name="scope" value="{{ kind }}:{{ target.pk }}">
+    <input type="hidden" name="date" value="{{ selected_date|date:"Y-m-d" }}">
+    <div class="table-wrap attendance-table">
+      <table>
+        <thead><tr><th>O'quvchi</th><th>Davomat holati</th></tr></thead>
+        <tbody>
+        {% for student in students %}
+        <tr>
+          <td><div class="person"><span class="person-avatar">{{ student.name|first|upper }}</span>{{ student.name }} {{ student.surname }}</div></td>
+          <td>
+            <div class="attendance-statuses">
+              {% for value, label in status_choices %}
+              <div class="attendance-status status-{{ value }}">
+                <input type="radio" id="status_{{ student.id }}_{{ value }}" name="status_{{ student.id }}" value="{{ value }}" {% if student.attendance_status == value %}checked{% endif %}>
+                <label for="status_{{ student.id }}_{{ value }}">{{ label }}</label>
+              </div>
+              {% endfor %}
+            </div>
+            {% if kind == 'group' %}
+              {% if student.attendance_status == 'late' %}<p class="muted">Oldingi holat: Kech qoldi</p>{% endif %}
+              {% if student.attendance_status == 'excused' %}<p class="muted">Oldingi holat: Sababli</p>{% endif %}
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="2"><div class="empty">O‘quvchi biriktirilmagan.</div></td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if students %}
+    <div class="panel-head attendance-save-wrap"><span class="muted">{{ target }} · {{ selected_date|date:"d.m.Y" }}</span><button class="button" type="submit">Davomatni saqlash</button></div>
+    {% endif %}
+  </form>
+  {% else %}
+  <div class="empty">Davomatni belgilash uchun guruh yoki kursni tanlang.</div>
+  {% endif %}
+</div>
+{% endblock %}

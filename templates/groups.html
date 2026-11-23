@@ -1,0 +1,26 @@
+﻿{% extends "base.html" %}
+{% block title %}Guruhlar{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Guruhlar</h1>
+  {% if perms.cards.add_studentgroup %}<a class="button" href="{% url 'group_add' %}">+ Guruh qo‘shish</a>{% endif %}
+</div>
+{% if ungrouped_count %}<p class="panel group-summary"><a class="panel-link" href="{% url 'student_list' %}?group=none">Guruh biriktirilmagan o‘quvchilar</a> <span class="badge">{{ ungrouped_count }} nafar</span></p>{% endif %}
+<div class="group-grid">
+  {% for group in groups %}
+  <article class="panel group-card">
+    <div class="group-card-title">
+      <span class="metric-icon"><svg aria-hidden="true"><use href="#users"/></svg></span>
+      <h2><a href="{% url 'group_detail' group.pk %}">{{ group.name }}</a></h2>
+      <span class="badge group-count">{{ group.student_count }} nafar o‘quvchi</span>
+    </div>
+    <div class="group-actions">
+      <a class="panel-link" href="{% url 'group_detail' group.pk %}">Guruhni ochish</a>
+      {% if perms.cards.add_student %}<a class="button" href="{% url 'group_student_add' group.pk %}">+ O‘quvchi qo‘shish</a>{% endif %}
+    </div>
+  </article>
+  {% empty %}
+  <p class="panel empty">Hali guruh qo‘shilmagan.</p>
+  {% endfor %}
+</div>
+{% endblock %}

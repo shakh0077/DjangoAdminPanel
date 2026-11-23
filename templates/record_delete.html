@@ -1,0 +1,11 @@
+﻿{% extends "base.html" %}
+{% block title %}{{ heading }}{% endblock %}
+{% block content %}
+<h1>{{ heading }}</h1>
+<form method="post" class="panel editor">
+  {% csrf_token %}
+  <p><strong>{{ object }}</strong> ro‘yxatdan o‘chirilsinmi?</p>
+  {% if section == 'student_list' %}<p class="muted">O‘quvchiga tegishli davomat va imtihon natijalari ham o‘chiriladi.</p>{% endif %}
+  <div class="editor-actions"><button type="submit" class="button danger">O‘chirish</button><a class="panel-link" href="{{ cancel_url }}">Bekor qilish</a></div>
+</form>
+{% endblock %}
