@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cards',
 ]
+ALLOWED_HOSTS = ['loyiham.onrender.com']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
