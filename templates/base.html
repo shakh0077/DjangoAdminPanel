@@ -1,4 +1,4 @@
-﻿{% load static %}
+{% load static %}
 <!doctype html>
 <html lang="uz">
 <head>
@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Boshqaruv paneli{% endblock %} | ShakhAcademy</title>
   <link rel="stylesheet" href="{% static 'cards/crm.css' %}">
+  {% block head %}{% endblock %}
   <script defer src="{% static 'cards/crm.js' %}"></script>
 </head>
 <body>

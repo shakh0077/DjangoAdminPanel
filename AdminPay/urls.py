@@ -15,8 +15,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.db import DatabaseError, connection
+from django.http import HttpResponse
+from django.urls import include, path
+from django.views.decorators.http import require_safe
+
+
+@require_safe
+def health(request):
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT 1')
+    except DatabaseError:
+        return HttpResponse('Unavailable', status=503, content_type='text/plain')
+    return HttpResponse('OK', content_type='text/plain')
 
 urlpatterns = [
+    path('healthz/', health, name='health'),
     path('admin/', admin.site.urls),
+    path('', include('cards.urls')),
 ]

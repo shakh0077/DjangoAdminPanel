@@ -1,23 +1,23 @@
 ﻿:root {
   font-family: "Segoe UI", system-ui, sans-serif;
-  color: #21192c;
+  color: #17233b;
   background: #fff;
 }
 * { box-sizing: border-box; }
 body { margin: 0; }
-.login-layout { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; min-height: 100svh; }
+.login-layout { display: grid; grid-template-columns: 1.12fr 1fr; min-height: 100vh; min-height: 100svh; }
 .illustration-pane, .form-pane { display: grid; place-items: center; padding: 32px; }
-.illustration-pane { background: #f4f1fa; overflow: hidden; }
+.illustration-pane { background: radial-gradient(ellipse at 50% 45%, #333c76, #151f38 74%); overflow: hidden; }
 .illustration { position: relative; isolation: isolate; width: min(100%, 380px); aspect-ratio: 1; }
-.art-halo { position: absolute; inset: 8%; border-radius: 50%; background: #eae0f8; }
+.art-halo { position: absolute; inset: 8%; border-radius: 50%; background: #25345a; }
 .art-id {
   position: absolute; inset: 16% 25% 13% 23%; display: grid; align-content: center;
   justify-items: center; gap: 12%; padding: 10%; border-radius: 14%; color: white;
-  background: linear-gradient(150deg, #a053e0, #582392);
-  transform: rotate(-13deg); box-shadow: 12px 17px 0 #d2b8eb;
+  background: linear-gradient(150deg, #857cf4, #463dc0);
+  transform: rotate(-13deg); box-shadow: 12px 17px 0 #141b33;
 }
 .art-avatar { position: relative; width: 60%; aspect-ratio: 1; border-radius: 50%; background: #f7edff; overflow: hidden; }
-.art-avatar::before, .art-avatar::after { content: ""; position: absolute; background: #7432ad; }
+.art-avatar::before, .art-avatar::after { content: ""; position: absolute; background: #5249ca; }
 .art-avatar::before { width: 28%; aspect-ratio: 1; top: 19%; left: 36%; border-radius: 50%; }
 .art-avatar::after { width: 61%; height: 49%; bottom: 0; left: 19.5%; border-radius: 50% 50% 0 0; }
 .art-line { width: 100%; height: 7px; border-radius: 9px; background: #ecdafa; }
@@ -27,12 +27,12 @@ body { margin: 0; }
 .art-lock::before { content: ""; position: absolute; left: 21%; right: 21%; bottom: 90%; height: 57%; border: 8px solid #9d6143; border-bottom: 0; border-radius: 40px 40px 0 0; }
 .art-lock i { width: 13%; height: 26%; border-radius: 10px; background: currentColor; }
 .login-form { width: min(100%, 440px); display: grid; gap: 20px; }
-.brand-name { margin: 0; color: #7125b4; font-weight: 750; }
+.brand-name { margin: 0; color: #5249ca; font-weight: 750; }
 h1 { margin: 0 0 6px; font-size: clamp(2rem, 4vw, 2.65rem); letter-spacing: -.035em; }
 .field { display: grid; gap: 7px; }
 label { font-size: .9375rem; font-weight: 650; }
 input, button { font: inherit; }
-.field input { width: 100%; min-width: 0; min-height: 54px; padding: 12px 14px; border: 1px solid #dcd3e7; border-radius: 10px; background: #f8f5fc; color: inherit; }
+.field input { width: 100%; min-width: 0; min-height: 54px; padding: 12px 14px; border: 1px solid #dfe5f2; border-radius: 10px; background: #f3f6fc; color: inherit; }
 .password-box { position: relative; }
 .password-box:has(button:not([hidden])) input { padding-inline-end: 54px; }
 .password-toggle { position: absolute; right: 5px; top: 5px; width: 44px; height: 44px; border: 0; border-radius: 8px; background: transparent; color: #665375; cursor: pointer; }
@@ -40,9 +40,9 @@ input, button { font: inherit; }
 .password-toggle svg { width: 22px; height: 22px; vertical-align: middle; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; }
 .password-toggle .eye-slash { display: none; }
 .password-toggle[aria-pressed="true"] .eye-slash { display: inline; }
-.submit { min-height: 54px; padding: 10px 16px; border: 0; border-radius: 10px; background: #7125b4; color: white; font-weight: 700; cursor: pointer; }
-.submit:hover { background: #5b198f; }
-:focus-visible { outline: 2px solid #7125b4; outline-offset: 3px; }
+.submit { min-height: 54px; padding: 10px 16px; border: 0; border-radius: 10px; background: #5249ca; color: white; font-weight: 700; cursor: pointer; }
+.submit:hover { background: #4239ad; }
+:focus-visible { outline: 2px solid #5249ca; outline-offset: 3px; }
 .error { margin: 0; padding: 12px; border-radius: 8px; background: #fff0f2; color: #922d44; }
 @media (max-width: 740px) {
   .login-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }

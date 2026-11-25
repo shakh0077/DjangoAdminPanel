@@ -228,6 +228,19 @@ class CrmAuthenticationTests(TestCase):
         self.assertRedirects(self.client.post(path, {**fields, 'first_name': 'Vali'}), path)
         self.assertEqual(self.client.get(photo_url).content, response.content)
 
+        user.set_password('profile-test-password')
+        user.save(update_fields=['password'])
+        self.client.logout()
+        self.assertRedirects(self.client.post(reverse('login'), {
+            'username': user.username, 'password': 'profile-test-password',
+        }), reverse('dashboard'))
+        user.refresh_from_db()
+        self.assertIsNotNone(user.last_login)
+        profile = self.client.get(path)
+        self.assertContains(profile, 'Vali Karimov')
+        self.assertContains(profile, timezone.localtime(user.last_login).strftime('%d.%m.%Y, %H:%M'))
+        self.assertEqual(self.client.get(photo_url).content, response.content)
+
         other_user = get_user_model().objects.create_user(username='another')
         self.client.force_login(other_user)
         self.assertEqual(self.client.get(photo_url).status_code, 404)

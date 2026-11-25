@@ -8,6 +8,16 @@
     {% include "account_avatar.html" %}
     <div><strong>{{ request.user.get_full_name|default:request.user.username }}</strong><div class="muted">{{ request.user.username }}</div></div>
   </div>
+  <dl class="profile-login">
+    <dt>Hisobga oxirgi kirish</dt>
+    <dd>
+      {% if request.user.last_login %}
+        <time datetime="{{ request.user.last_login|date:'c' }}">{{ request.user.last_login|date:"d.m.Y, H:i" }}</time>
+      {% else %}
+        Kirish vaqti hali qayd etilmagan
+      {% endif %}
+    </dd>
+  </dl>
   {% include "form_fields.html" %}
   <div class="editor-actions">
     <button class="button" type="submit">Saqlash</button>

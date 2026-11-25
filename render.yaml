@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: shakhacademy-crm
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    preDeployCommand: python manage.py migrate --noinput
+    startCommand: python -m gunicorn AdminPay.wsgi:application --bind "0.0.0.0:$PORT"
+    healthCheckPath: /healthz/
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "false"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: shakhacademy-db
+          property: connectionString
+
+databases:
+  - name: shakhacademy-db
+    plan: basic-256mb
+    ipAllowList: []

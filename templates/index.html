@@ -1,7 +1,14 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
+{% load static %}
 {% block title %}Bosh sahifa{% endblock %}
+{% block head %}
+  <script defer src="{% static 'cards/chart.umd.min.js' %}"></script>
+{% endblock %}
 {% block content %}
-<h1>O‘quvchi paneli</h1>
+<div class="page-head dashboard-head">
+  <h1>Boshqaruv paneli</h1>
+  {% if perms.cards.add_student %}<a class="button" href="{% url 'student_add' %}">+ O‘quvchi qo‘shish</a>{% endif %}
+</div>
 <div class="dashboard-grid">
   <div class="dashboard-overview">
     <section class="hero">
@@ -12,7 +19,6 @@
       {% else %}
       <span class="hero-avatar"><svg><use href="#school"/></svg></span>
       <div class="hero-copy"><h2>O‘quvchilar</h2><p>Hozircha o‘quvchi qo‘shilmagan.</p></div>
-      {% if perms.cards.add_student %}<a class="hero-button" href="{% url 'student_add' %}">O‘quvchi qo‘shish</a>{% endif %}
       {% endif %}
     </section>
     <div class="dashboard-stats">
@@ -23,8 +29,9 @@
   </div>
   <section class="panel attendance-card">
     <div class="chart-head"><div><h2>Davomat</h2><p>Joriy oy</p></div><a class="icon-button" href="{% url 'attendance' %}" aria-label="Davomat sahifasi"><svg><use href="#calendar"/></svg></a></div>
-    <div class="donut" style="--present:{{ present_pct }}%;--absent-end:{{ absent_end }}%;--total:{{ attendance_total|yesno:'100,0' }}%" role="img" aria-label="{{ attendance_total }} ta qayd. Kelgan {{ present_pct }} foiz, kelmagan {{ absent_pct }} foiz, sababli {{ excused_pct }} foiz.">
-      <div><strong>{{ attendance_total }}</strong><span>Jami qayd</span></div>
+    <div class="donut" style="--present:{{ present_pct }}%;--absent-end:{{ absent_end }}%;--total:{{ attendance_total|yesno:'100,0' }}%" >
+      {% if attendance_total %}<canvas class="attendance-chart" data-present="{{ present_pct }}" data-absent="{{ absent_pct }}" data-excused="{{ excused_pct }}" aria-hidden="true"></canvas>{% endif %}
+      <div class="donut-summary"><strong>{{ attendance_total }}</strong><span>Jami qayd</span></div>
     </div>
     <div class="legend"><span><i></i> Kelgan <b>{{ present_pct }}%</b></span><span><i></i> Kelmagan <b>{{ absent_pct }}%</b></span>{% if excused_pct %}<span><i></i> Sababli <b>{{ excused_pct }}%</b></span>{% endif %}</div>
   </section>

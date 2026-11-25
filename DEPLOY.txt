@@ -1,0 +1,39 @@
+ShakhAcademy CRM — Render
+
+1. Deploy arxivini yangi private Git repozitoriyga oching va kodni push qiling.
+   Mahalliy db.sqlite3, crm-data.json va .env fayllarini repozitoriyga yuklamang.
+   Agar eski repozitoriyda baza Git tarixida bo'lsa, yangi repozitoriyda
+   o'sha tarixni ko'chirmang.
+2. Render boshqaruv panelida New > Blueprint orqali repozitoriyga ulaning.
+   render.yaml pullik veb-servis va PostgreSQL bazasini sozlaydi. Tasdiqlash
+   oynasida tariflarni tekshiring. SECRET_KEY avtomatik yaratiladi.
+3. Birinchi deploydan so'ng /healthz/ manzili 200 OK qaytarishini tekshiring.
+4. Bo'sh baza bilan boshlash uchun Render Shell'da administrator yarating:
+
+   python manage.py createsuperuser
+
+Mahalliy ma'lumotlarni yangi, bo'sh PostgreSQL bazasiga ko'chirish
+
+1. Mahalliy CRM'ga yozuv kiritishni vaqtincha to'xtating va SQLite nusxasini
+   xavfsiz joyda saqlang. Mahalliy terminalda DATABASE_URL o'rnatilmaganini
+   tekshiring va quyidagi buyruqni bajaring:
+
+   .\venv\Scripts\python.exe manage.py dumpdata --natural-foreign --exclude contenttypes --exclude auth.permission --exclude sessions --exclude admin.logentry --output crm-data.json
+
+2. Render xizmatining Connect > SSH oynasidagi manzilni ishlating.
+   Git Bash orqali shifrlangan SSH ulanishida faylni bevosita Django'ga uzating:
+
+   ssh -T RENDER_SSH_MANZILI 'python manage.py loaddata --format=json -' < crm-data.json
+
+3. Mavjud administrator hisobi bilan kiring. O'quvchilar, guruhlar va davomatni
+   tekshiring. Export faylini maxfiy zaxira sifatida saqlang.
+
+Mahalliy ishga tushirish
+
+   python -m pip install -r requirements.txt
+   python manage.py migrate
+   python manage.py createsuperuser
+   python manage.py runserver
+
+Render qo'llanmasi
+https://render.com/docs/deploy-django
